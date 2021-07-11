@@ -46,7 +46,6 @@ resource "azurerm_linux_virtual_machine" "myVMB2s" {
 
 }
 
-
 #Maquinas tipo BD1_v2
 resource "azurerm_linux_virtual_machine" "myVMBD1_v2" {
     count               = length(var.vmsBD1_v2)
