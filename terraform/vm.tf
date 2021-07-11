@@ -5,7 +5,7 @@
 #Maquinas tipo B2s
 resource "azurerm_linux_virtual_machine" "myVMB2s" {
     count               = length(var.vmsB2s)
-    name                = "vms${var.vmsB2s[count.index]}"
+    name                = "${var.vmsB2s[count.index]}"
     resource_group_name = azurerm_resource_group.rg.name
     location            = azurerm_resource_group.rg.location
     size                = var.vm_sizeB2s
@@ -49,7 +49,7 @@ resource "azurerm_linux_virtual_machine" "myVMB2s" {
 #Maquinas tipo BD1_v2
 resource "azurerm_linux_virtual_machine" "myVMBD1_v2" {
     count               = length(var.vmsBD1_v2)
-    name                = "vms${var.vmsBD1_v2[count.index]}"
+    name                = "${var.vmsBD1_v2[count.index]}"
     resource_group_name = azurerm_resource_group.rg.name
     location            = azurerm_resource_group.rg.location
     size                = var.vm_sizeBD1_v2
