@@ -37,7 +37,7 @@ resource "azurerm_linux_virtual_machine" "myVMB2s" {
     }
 
     boot_diagnostics {
-        storage_account_uri = azurerm_storage_account.mystaccount914.primary_blob_endpoint
+        storage_account_uri = azurerm_storage_account.var.storage_account.primary_blob_endpoint
     }
 
     tags = {
@@ -81,7 +81,7 @@ resource "azurerm_linux_virtual_machine" "myVMBD1_v2" {
     }
 
     boot_diagnostics {
-        storage_account_uri = azurerm_storage_account.mystaccount914.primary_blob_endpoint
+        storage_account_uri = azurerm_storage_account.var.storage_account.primary_blob_endpoint
     }
 
     tags = {
