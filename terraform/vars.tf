@@ -1,11 +1,34 @@
-#variable "location" {
-#  type = string
-#  description = "Región de Azure donde crearemos la infraestructura"
-#  default = "West Europe"
-#}
-
-variable "vm_size" {
+#Indicamos la región
+variable "location" {
   type = string
-  description = "Tamaño de la máquina virtual"
-  default = "Standard_D1_v2" # 3.5 GB, 1 CPU 
+  description = "Región de azure para la infraestructura"
+  default = "Central US"
+}
+
+#Tipo de instancia para el master node
+variable "vm_sizeB2s" {
+  type = string
+  description = "recursos del master"
+  default = "Standard_B2s"
+}
+
+#Nombre de los master nodes
+variable "vmsB2s" {
+  description = "Maquinas virtuales"
+  type = list(string)
+  default = ["master.azure"]
+}
+
+#Tipo de instancia para los worker nodes y nfs nodes
+variable "vm_sizeBD1_v2" {
+  type = string
+  description = "recursos para los workers y nfs"
+  default = "Standard_DS1_v2"
+}
+
+#nombres para los worker nodes y nfs nodes
+variable "vmsBD1_v2" {
+  description = "Maquinas virtuales"
+  type = list(string)
+  default = ["worker01.azure","worker02.azure","nfs.azure"]
 }

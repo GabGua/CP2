@@ -1,6 +1,5 @@
-# Security group
+# Creamos un grupo de seguridad con una regla para el servicio ssh
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group
-
 resource "azurerm_network_security_group" "mySecGroup" {
     name                = "sshtraffic"
     location            = azurerm_resource_group.rg.location
@@ -23,11 +22,20 @@ resource "azurerm_network_security_group" "mySecGroup" {
     }
 }
 
-# Vinculamos el security group al interface de red
+# Vinculamos el security group al interface de red del master node
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association
-
 resource "azurerm_network_interface_security_group_association" "mySecGroupAssociation1" {
-    network_interface_id      = azurerm_network_interface.myNic1.id
+    count                     = length(var.vmsB2s)
+    network_interface_id      = azurerm_network_interface.myNic1[count.index].id
+    network_security_group_id = azurerm_network_security_group.mySecGroup.id
+
+}
+
+# Vinculamos el security group al interface de red de los worker nodes and nfs nodes
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association
+resource "azurerm_network_interface_security_group_association" "mySecGroupAssociation2" {
+    count                     = length(var.vmsBD1_v2)
+    network_interface_id      = azurerm_network_interface.myNic2[count.index].id
     network_security_group_id = azurerm_network_security_group.mySecGroup.id
 
 }
