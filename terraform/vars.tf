@@ -1,10 +1,3 @@
-#Indicamos la región
-variable "location" {
-  type = string
-  description = "Región de azure para la infraestructura"
-  default = "Central US"
-}
-
 #Tipo de instancia para el master node
 variable "vm_sizeB2s" {
   type = string
