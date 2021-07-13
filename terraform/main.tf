@@ -9,14 +9,7 @@ terraform {
   }
 }
 
-# crea un service principal y rellena los siguientes datos para autenticar
-provider "azurerm" {
-  features {}
-  subscription_id = "28fcfe8a-5f17-4c54-a3db-14d00d3392c0"
-  client_id       = "a5e549bf-3ae6-4e26-af32-6145ec79fa95"
-  client_secret   = "T_q5Q~ubgRtcJ5x9jPVMlR4103fl3JWnE9"
-  tenant_id       = "899789dc-202f-44b4-8472-a6d40f9eb440"
-}
+
 
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
 
