@@ -1,0 +1,41 @@
+---
+- hosts: nfs-server
+  become: yes
+  vars_files:
+  - env_variables_nfs
+  tasks:
+#Instalamos el nfs-utils en el nodo nfs        
+    - name: install nfs-utils
+      yum: name=nfs-utils state=latest
+# Creamos un directorio para exportar el NFS
+    - name: Create a mountable directory if it does not exist
+    file:
+      path: /nextcloud/
+      state: directory
+      owner: root
+      group: root
+      mode: '0775'
+#      
+    - name: Copy exports file.
+      template:
+        src: ../j2/exports.j2
+        dest: /etc/exports
+        owner: root
+        group: root
+        mode: 0644
+  
+#Habilitamos los puertos indicados en el archivo env
+    - name: Allow Network Ports in Firewalld for nfs
+      firewalld:
+       port: "{{ item }}"
+       state: enabled
+       permanent: yes
+      with_items: "{{ nfs_ports  }}"
+
+#Iniciamos los servicios indicados en el archivo env
+    - name: Starting and Enabling the required services
+      service:
+       name: "{{ item }}"
+       state: started
+       enabled: yes
+      with_items: "{{ services }}"

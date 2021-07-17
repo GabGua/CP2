@@ -1,0 +1,53 @@
+---
+- hosts: kubernetes
+  become: yes
+  vars_files:
+  - env_variables
+  tasks:
+    #Creamos el repositorio para kubernetes
+  - name: Creating a repository file for Kubernetes
+    file:
+     path: /etc/yum.repos.d/kubernetes.repo
+     state: touch
+    #Añadimos los datos al repositorio de kubernetes
+  - name: Adding repository details in Kubernetes repo file.
+    blockinfile:
+     path: /etc/yum.repos.d/kubernetes.repo
+     block: |
+      [kubernetes]
+      name=Kubernetes
+      baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+      enabled=1
+      gpgcheck=1
+      repo_gpgcheck=1
+      gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+        https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+    #Instalamos docker y su containerd
+  - name: Installing Docker
+    shell: |
+     dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+     dnf install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm -y
+     dnf install docker-ce -y
+    #Instalamos los paquetes de kubernetes
+  - name: Installing required packages
+    yum:
+     name: "{{ packages }}"
+     state: present
+    #Iniciamos los servicios necesarios
+  - name: Starting and Enabling the required services
+    service:
+     name: "{{ item }}"
+     state: started
+     enabled: yes
+    with_items: "{{ services }}"
+    #Habilitamos los puertos necesarios para el cluster
+  - name: Allow Network Ports in Firewalld
+    firewalld:
+     port: "{{ item }}"
+     state: enabled
+     permanent: yes
+     immediate: yes
+    with_items: "{{ master_ports if ('kubernetes-master-nodes' in group_names) else worker_ports }}"
+    #Parametro necesario para el firewall
+  - name: Enabling Bridge Firewall Rule
+    shell: "echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables"

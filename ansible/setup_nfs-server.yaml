@@ -1,0 +1,3 @@
+#Libro que creara el nfs server
+---
+- import_playbook: playbooks/configure_nfs-server_nodes.yaml
