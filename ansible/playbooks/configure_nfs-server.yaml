@@ -16,7 +16,7 @@
         owner: root
         group: root
         mode: '0775'
-#      
+# Copiamos en jinja2 template en el exports file del NFS
     - name: Copy exports file.
       template:
         src: ../j2/exports.j2
@@ -24,7 +24,6 @@
         owner: root
         group: root
         mode: 0644
-  
 #Habilitamos los puertos indicados en el archivo env
     - name: Allow Network Ports in Firewalld for nfs
       firewalld:
@@ -32,7 +31,6 @@
        state: enabled
        permanent: yes
       with_items: "{{ nfs_ports  }}"
-
 #Iniciamos los servicios indicados en el archivo env
     - name: Starting and Enabling the required services
       service:

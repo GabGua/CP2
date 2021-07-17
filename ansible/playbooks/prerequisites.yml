@@ -5,21 +5,26 @@
   vars_files:
   - env_variables
   tasks:
-  #Deshabilitamos la SWAP
-  - name: Disabling Swap on all nodes
-    shell: swapoff -a
-  #Comentamos cualquier entrada del fstab que apunte a la SWAP
-  - name: Commenting Swap entries in /etc/fstab
-    replace:
-     path: /etc/fstab
-     regexp: '(^/.*swap*)'
-     replace: '# \1'
-  #Añade las IPs de los nodos en cada /etc/hosts
-  - name: Add IPs to /etc/hosts on master and workers
-    lineinfile:
-      dest: /etc/hosts
-      regexp: '.*{{ item }}$'
-      line: "{{ hostvars[item].ansible_host }} {{item}}"
-      state: present
-    when: hostvars[item].ansible_host is defined
-    with_items: "{{ groups.all }}"
+#  #Deshabilitamos la SWAP
+# - name: Disabling Swap on all nodes
+#   shell: swapoff -a
+#  #Comentamos cualquier entrada del fstab que apunte a la SWAP
+#  - name: Commenting Swap entries in /etc/fstab
+#    replace:
+#     path: /etc/fstab
+#     regexp: '(^/.*swap*)'
+#     replace: '# \1'
+
+  - name: "Build hosts file"
+    lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_default_ipv4.address }} {{item}}" state=present
+    when: hostvars[item].ansible_default_ipv4.address is defined
+    with_items: groups['all']
+  ##Añade las IPs de los nodos en cada /etc/hosts
+  #- name: Add IPs to /etc/hosts on master and workers
+  #  lineinfile:
+  #    dest: /etc/hosts
+  #    regexp: '.*{{ item }}$'
+  #    line: "{{ hostvars[item].ansible_host }} {{item}}"
+  #    state: present
+  #  when: hostvars[item].ansible_host is defined
+  #  with_items: "{{ groups.all }}"
