@@ -1,7 +1,7 @@
 ---
 - hosts: all
   become: yes
-  gather_facts: false
+  gather_facts: true
   vars_files:
   - env_variables
   tasks:
@@ -14,11 +14,11 @@
 #     path: /etc/fstab
 #     regexp: '(^/.*swap*)'
 #     replace: '# \1'
-
-  - name: "Build hosts file"
-    lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_default_ipv4.address }} {{item}}" state=present
-    when: hostvars[item].ansible_default_ipv4.address is defined
-    with_items: groups['all']
+#
+#  - name: "Build hosts file"
+#    lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_default_ipv4.address }} {{item}}" state=present
+#    when: hostvars[item].ansible_default_ipv4.address is defined
+#    with_items: groups['all']
   ##Añade las IPs de los nodos en cada /etc/hosts
   #- name: Add IPs to /etc/hosts on master and workers
   #  lineinfile:
@@ -28,3 +28,12 @@
   #    state: present
   #  when: hostvars[item].ansible_host is defined
   #  with_items: "{{ groups.all }}"
+
+    - name: Add IP address of all hosts to all hosts
+      lineinfile:
+        dest: /etc/hosts
+        regexp: '.*{{ item }}$'
+        line: "{{ hostvars[item].ansible_Host }} {{item}}"
+        state: present
+      when: hostvars[item].ansible_Host is defined
+      with_items: "{{ groups.all }}"
