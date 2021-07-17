@@ -9,12 +9,12 @@
       yum: name=nfs-utils state=latest
 # Creamos un directorio para exportar el NFS
     - name: Create a mountable directory if it does not exist
-    file:
-      path: /nextcloud/
-      state: directory
-      owner: root
-      group: root
-      mode: '0775'
+      file:
+        path: /nextcloud/
+        state: directory
+        owner: root
+        group: root
+        mode: '0775'
 #      
     - name: Copy exports file.
       template:
