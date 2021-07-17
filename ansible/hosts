@@ -2,14 +2,14 @@
 
 
 [kubernetes-master]
-40.91.222.159
+20.105.196.36
 
 [nfs-server]
-40.91.220.25
+20.101.140.202
 
 [kubernetes-workers]
-51.144.87.29
-51.144.81.36
+51.145.159.198
+20.101.114.96
 
 [kubernetes:children]
 kubernetes-master
