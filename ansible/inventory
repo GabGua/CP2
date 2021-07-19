@@ -1,24 +1,29 @@
 #Defininción de los hosts
 
-[all]
-20.103.252.61
-20.93.141.99
-20.103.254.185
-20.93.140.35
-
 [kubernetes-master]
-20.103.252.61
+20.105.158.174
 
 [nfs-server]
-20.93.141.99
+20.105.159.54
 
 [kubernetes-workers]
-20.103.254.185
-20.93.140.35
+20.105.135.203
+20.101.46.149
 
 [kubernetes:children]
 kubernetes-master
 kubernetes-workers
+
+[all:children]
+kubernetes-master
+kubernetes-workers
+nfs-server
+
+#[all]
+#52.166.98.197
+#52.166.96.38
+#20.93.164.99
+#20.93.140.35
 
 #Usuario ssh para el grupo kubernetes
 [kubernetes:vars]

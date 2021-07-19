@@ -3,7 +3,7 @@
   become: yes
   gather_facts: false
   vars_files:
-  - group_vars/env_variables
+  - ../vars/env_variables.yml
   tasks:
     #Bajamos las imagenes necesarias para kubeadm init
   - name: Pulling images required for setting up a Kubernetes cluster
@@ -13,8 +13,11 @@
     shell: kubeadm reset -f
     register: output
     #Iniciamos el cluster pasando parametros del archivo env
+#  - name: Initializing Kubernetes cluster
+#    shell: kubeadm init --apiserver-advertise-address {{ad_addr}} --pod-network-cidr={{cidr_v}}
+#    register: output
   - name: Initializing Kubernetes cluster
-    shell: kubeadm init --apiserver-advertise-address {{ad_addr}} --pod-network-cidr={{cidr_v}}
+    shell: kubeadm init --pod-network-cidr={{cidr_v}}
     register: output
     #Guardamos la salida en el token file necesaria para unir los nodos worker
   - name: Storing Logs and Generated token for future purpose.
@@ -26,13 +29,17 @@
      mkdir -p $HOME/.kube
      sudo cp -f /etc/kubernetes/admin.conf $HOME/.kube/config
      sudo chown $(id -u):$(id -g) $HOME/.kube/config
-    #Instalamos la red flannel para el cluster
+    #Instalamos la SDN para el cluster
   - name: Install Network Add-on
-    command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+    command: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
+#Instalamos el ingress controller
+  - name: Install Ingress Controller
+    command:  kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yaml
     #Instalamos helm para instalar aplicaciones
-  - name: Install helm
-    shell: |
-     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-     chmod 700 get_helm.sh
-     sh get_helm.sh
-     rm -f get_helm.sh
+#  - name: Install helm
+#    shell: |
+#     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+#     chmod 700 get_helm.sh
+#     sh get_helm.sh
+#     rm -f get_helm.sh
+#

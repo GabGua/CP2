@@ -3,8 +3,13 @@
   become: yes
   gather_facts: false
   vars_files:
-  - group_vars/env_variables
+  - ../vars/env_variables.yml
   tasks:
+  - name: Copying required files
+    shell: |
+     mkdir -p $HOME/.kube
+     sudo cp -f /etc/kubernetes/admin.conf $HOME/.kube/config
+     sudo chown $(id -u):$(id -g) $HOME/.kube/config
     #Copiamos el archivo token en los nodos worker
   - name: Copying token to worker nodes
     copy: src={{ token_file }} dest=join_token

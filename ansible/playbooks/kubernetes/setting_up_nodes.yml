@@ -3,25 +3,25 @@
   become: yes
   gather_facts: false
   vars_files:
-  - group_vars/env_variables
+  - ../vars/env_variables.yml
   tasks:
-    #Creamos el repositorio para kubernetes
-  - name: Creating a repository file for Kubernetes
-    file:
-     path: /etc/yum.repos.d/kubernetes.repo
-     state: touch
-# Copiamos el repo de k8s en los clientes
+#    #Creamos el repositorio para kubernetes
+#  - name: Creating a repository file for Kubernetes
+#    file:
+#     path: /etc/yum.repos.d/kubernetes.repo
+#     state: touch
+# Copiamos el repo de k8s en los nodos
   - name: Copy Kubernetes repo file to nodes.
     template:
-      src: ../j2/repos/kubernetes.repo.j2
+      src: /home/gabriel/CP2/ansible/j2/repos/kubernetes.repo.j2
       dest: /etc/yum.repos.d/Kubernetes.repo
       owner: root
       group: root
       mode: 0644
-# Copiamos el repo de docker en los clientes
+# Copiamos el repo de docker en los nodos
   - name: Copy Docker repo file to nodes.
     template:
-      src: ../j2/repos/docker-ce.repo.j2
+      src: /home/gabriel/CP2/ansible/j2/repos/docker-ce.repo.j2
       dest: /etc/yum.repos.d/Docker-ce.repo
       owner: root
       group: root
@@ -57,6 +57,14 @@
      permanent: yes
      immediate: yes
     with_items: "{{ master_ports if ('kubernetes-master-nodes' in group_names) else worker_ports }}"
+  - name: Allow workers IPs in Firewalld
+    firewalld:
+      permanent: yes
+      immediate: yes
+      rich_rule: "{{ item }}"
+      state: enabled
+      with_items: "{{ ip_rich_rule if ('kubernetes-master-nodes' in group_names)}}"
+
 #Parametro necesario para el firewall
   - name: Enabling Bridge Firewall Rule
     shell: "echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables"

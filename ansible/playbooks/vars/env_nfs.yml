@@ -1,10 +1,10 @@
-#Habilitamos los servicios necesarios para el nodo nfs
+#Servicios necesarios para el nodo nfs
 services:
 - rpcbind.service
 - nfs-server.service
 - firewalld.service
 
-#Habilitamos los puertos para el nodo nfs
+#Puertos necesarios para el nodo nfs
 nfs_ports:
 - "2049/tcp"
 - "2049/udp"

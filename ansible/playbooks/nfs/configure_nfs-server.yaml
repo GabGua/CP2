@@ -3,7 +3,7 @@
   become: yes
   gather_facts: false
   vars_files:
-  - group_vars/env_nfs
+  - ../vars/env_nfs.yml
   tasks:
 #Instalamos el nfs-utils en el nodo nfs        
     - name: install nfs-utils
@@ -19,7 +19,7 @@
 # Copiamos en jinja2 template en el exports file del NFS
     - name: Copy exports file.
       template:
-        src: ../j2/exports.j2
+        src: ../../j2/exports.j2
         dest: /etc/exports
         owner: root
         group: root

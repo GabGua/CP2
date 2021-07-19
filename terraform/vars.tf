@@ -9,7 +9,7 @@ variable "vm_sizeB2s" {
 variable "vmsB2s" {
   description = "Maquinas virtuales"
   type = list(string)
-  default = ["master.azure"]
+  default = ["master"]
 }
 
 #Tipo de instancia para los worker nodes y nfs nodes
@@ -23,5 +23,5 @@ variable "vm_sizeBD1_v2" {
 variable "vmsBD1_v2" {
   description = "Maquinas virtuales"
   type = list(string)
-  default = ["worker01.azure","worker02.azure","nfs.azure"]
+  default = ["worker01","worker02","nfs"]
 }
