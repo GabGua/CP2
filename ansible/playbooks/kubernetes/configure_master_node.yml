@@ -1,9 +1,9 @@
 ---
-- hosts: kubernetes-master-nodes
+- hosts: kubernetes-master
   become: yes
   gather_facts: false
   vars_files:
-  - env_variables
+  - group_vars/env_variables
   tasks:
     #Bajamos las imagenes necesarias para kubeadm init
   - name: Pulling images required for setting up a Kubernetes cluster

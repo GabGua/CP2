@@ -3,7 +3,7 @@
   become: yes
   gather_facts: false
   vars_files:
-  - env_variables_nfs
+  - group_vars/env_nfs
   tasks:
 #Instalamos el nfs-utils en el nodo nfs        
     - name: install nfs-utils
@@ -31,10 +31,10 @@
        state: enabled
        permanent: yes
       with_items: "{{ nfs_ports  }}"
-#Iniciamos los servicios indicados en el archivo env
+#Iniciamos y habilitamos los servicios indicados en el archivo env
     - name: Starting and Enabling the required services
       service:
        name: "{{ item }}"
-       state: started
        enabled: yes
+       state: started
       with_items: "{{ services }}"

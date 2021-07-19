@@ -6,6 +6,8 @@ cidr_v: 10.244.0.0/16
 packages:
 - kubeadm
 - kubectl
+- docker-ce
+- containerd
 
 #Habilitamos los servicios necesarios para kubernetes
 services:

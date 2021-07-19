@@ -1,3 +1,4 @@
 #Libro que creara el nfs server
 ---
-- import_playbook: playbooks/configure_nfs-server.yaml
+- import_playbook: playbooks/common/update_etc_hosts.yml
+- import_playbook: playbooks/nfs/configure_nfs-server.yaml

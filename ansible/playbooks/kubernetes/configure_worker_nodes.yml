@@ -1,9 +1,9 @@
 ---
-- hosts: kubernetes-worker-nodes
+- hosts: kubernetes-workers
   become: yes
   gather_facts: false
   vars_files:
-  - env_variables
+  - group_vars/env_variables
   tasks:
     #Copiamos el archivo token en los nodos worker
   - name: Copying token to worker nodes

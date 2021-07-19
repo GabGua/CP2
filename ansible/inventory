@@ -1,15 +1,20 @@
 #Defininción de los hosts
 
+[all]
+20.103.252.61
+20.93.141.99
+20.103.254.185
+20.93.140.35
 
 [kubernetes-master]
-20.105.196.36
+20.103.252.61
 
 [nfs-server]
-20.101.140.202
+20.93.141.99
 
 [kubernetes-workers]
-51.145.159.198
-20.101.114.96
+20.103.254.185
+20.93.140.35
 
 [kubernetes:children]
 kubernetes-master
@@ -25,3 +30,4 @@ nfs-server
 #Usuario SSH para el grupo nfs
 [nfs:vars]
 ansible_ssh_user=adminUsername
+

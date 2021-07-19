@@ -1,7 +1,8 @@
 #Habilitamos los servicios necesarios para el nodo nfs
 services:
-- nfs-server
-- firewalld
+- rpcbind.service
+- nfs-server.service
+- firewalld.service
 
 #Habilitamos los puertos para el nodo nfs
 nfs_ports:

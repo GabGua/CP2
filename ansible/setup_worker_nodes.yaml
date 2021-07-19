@@ -1,5 +1,5 @@
 #Llamamos al conjuntos de playbooks que contruiran los workers
 ---
-- import_playbook: playbooks/prerequisites.yml
-- import_playbook: playbooks/setting_up_nodes.yml
-- import_playbook: playbooks/configure_worker_nodes.yml
+- import_playbook: playbooks/common/update_etc_hosts.yml
+- import_playbook: playbooks/kubernetes/setting_up_nodes.yml
+- import_playbook: playbooks/kubernetes/configure_worker_nodes.yml
