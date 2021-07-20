@@ -1,0 +1,5 @@
+files:
+- cluster-ingress.yml
+- nextcloud-db.yml
+- nextcloud-server.yml
+- nextcloud-shared-pvc.yml
