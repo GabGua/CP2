@@ -56,15 +56,25 @@
      state: enabled
      permanent: yes
      immediate: yes
-    with_items: "{{ master_ports if ('kubernetes-master-nodes' in group_names) else worker_ports }}"
-  - name: Allow workers IPs in Firewalld
-    firewalld:
-      permanent: yes
-      immediate: yes
-      rich_rule: "{{ item }}"
-      state: enabled
-      with_items: "{{ ip_rich_rule if ('kubernetes-master-nodes' in group_names)}}"
+    with_items: "{{ master_ports if ('kubernetes-master' in group_names) else worker_ports }}"
 
-#Parametro necesario para el firewall
-  - name: Enabling Bridge Firewall Rule
-    shell: "echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables"
+#  - name: Allow workers IPs in Firewalld
+#    firewalld:
+#      permanent: yes
+#      immediate: yes
+#      rich_rule: "{{ item }}"
+#      state: enabled
+#    with_items: "{{ ip_rich_rule if ('kubernetes-master' in group_names)}}"
+
+
+#  - name: Allow workers IPs in Firewalld
+#    firewalld:
+#      rich_rule: "{{ item }}"
+#      permanent: yes
+#      immediate: yes
+#      state: enabled
+#    with_items: "{{ rich_rules  if ('kubernetes-master' in group_names)}}"
+
+##Parametro necesario para el firewall
+#  - name: Enabling Bridge Firewall Rule
+#    shell: "echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables"

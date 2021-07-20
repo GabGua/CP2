@@ -3,3 +3,4 @@
 - import_playbook: playbooks/common/update_etc_hosts.yml
 - import_playbook: playbooks/kubernetes/setting_up_nodes.yml
 - import_playbook: playbooks/kubernetes/configure_worker_nodes.yml
+- import_playbook: playbooks/nfs/configure_nfs_client.yml

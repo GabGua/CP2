@@ -1,0 +1,3 @@
+#Llamamos al conjuntos de playbooks que contruiran los workers
+---
+- import_playbook: playbooks/nextcloud/set_nextcloud.yml

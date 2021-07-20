@@ -10,3 +10,19 @@ nfs_ports:
 - "2049/udp"
 - "111/tcp"
 - "111/udp"
+
+# Servicios necesarios para firewall nfs server
+nfs_fw_services:
+- rpc-bind
+- mountd
+
+# NFS Client
+
+nfsserver:
+- nfs
+clientmount:
+- "nfs"
+nfspath:
+- "nfs-server"
+nfs_client_ports:
+- "20048/udp"

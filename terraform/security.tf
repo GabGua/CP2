@@ -16,7 +16,7 @@ resource "azurerm_network_security_group" "mySecGroup" {
         source_address_prefix      = "*"
         destination_address_prefix = "*"
     }
-
+    
     tags = {
         environment = "CP2"
     }

@@ -1,0 +1,45 @@
+---
+- hosts: kubernetes-workers
+  become: yes
+  gather_facts: false
+  vars_files:
+  - ../vars/env_nfs.yml
+  tasks:
+#Instalamos el nfs-utils en el nodo nfs        
+  - name: install nfs-utils
+    yum: name=nfs-utils state=latest
+
+#Habilitamos los puertos indicados en el archivo env
+  - name: Allow Network Ports in Firewalld for nfs client
+    firewalld:
+     port: "{{ item }}"
+     state: enabled
+     permanent: yes
+    with_items: "{{ nfs_client_ports }}"
+
+  - name: Starting and Enabling rpcbind
+    service:
+     name: rpcbind
+     state: started
+     enabled: yes
+
+  - name: Ensure /nfs directory exists
+    file:
+      path: /nfs
+      state: directory
+    
+#  - command: if [ -z "$nfsoptions" ]; then  echo rw,sync,nfsvers=3; else echo $nfsoptions; fi
+#    register: nfsout
+#    sudo: false
+#    #connection: local
+  
+#  - name: configure /etc/fstab on clients
+#    action: mount name={{clientmount}} src={{nfsserver}}:{{nfspath}} fstype=nfs opts={{nfsout}} state=mounted
+#  
+  - name: Mount NFS volume
+    mount:
+      src: 10.0.1.22:/nfs-server
+      path: /nfs
+      opts: rw,sync
+      state: mounted
+      fstype: nfs

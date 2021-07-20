@@ -38,10 +38,10 @@ worker_ports:
 - "8285/udp"
 - "8472/udp"
 
-ip_rich_rule:
-- "10.0.1.20"
-- "10.0.1.21"
-- "172.17.0.1"
+rich_rules:
+- "rule family=ipv4 source address=10.0.1.20/32 accept"
+- "rule family=ipv4 source address=10.0.1.21/32 accept"
+- "rule family=ipv4 source address=172.17.0.1/32 accept"
 
 #indicamos el archivo que contendra el token para entrar al cluster
 token_file: join_token

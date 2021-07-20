@@ -1,0 +1,24 @@
+---
+- hosts: kubernetes-master
+  become: yes
+  gather_facts: false
+  vars_files:
+   ../vars/env_nextcloud.yml
+  tasks:
+  - name: Copying files to dest
+    copy: 
+      src: "{{item}}"
+      dest: /tmp/
+    with_items: "{{files}}"
+
+  - name: Applying Persisteng Volume
+    shell: kubectl apply -f /tmp/nextcloud-shared-pvc.yml
+
+  - name: Deploying Nextcloud DB
+    shell: kubectl apply -f /tmp/nextcloud-db.yml
+  
+  - name: Deploying Nextcloud Server
+    shell: kubectl apply -f /tmp/nextcloud-server.yml
+  
+  - name: Deploying Nextcloud Server
+    shell: kubectl apply -f /tmp/cluster-ingress.yml

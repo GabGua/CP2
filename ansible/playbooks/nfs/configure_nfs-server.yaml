@@ -11,7 +11,7 @@
 # Creamos un directorio para exportar el NFS
     - name: Create a mountable directory if it does not exist
       file:
-        path: /nextcloud/
+        path: /nfs-server/
         state: directory
         owner: root
         group: root
@@ -31,6 +31,15 @@
        state: enabled
        permanent: yes
       with_items: "{{ nfs_ports  }}"
+    
+    - name: Permit traffic in default zone for NFS services
+      firewalld:
+       service: "{{ item }}"
+       permanent: yes
+       state: enabled
+      with_items: "{{ nfs_fw_services }}"
+
+
 #Iniciamos y habilitamos los servicios indicados en el archivo env
     - name: Starting and Enabling the required services
       service:
