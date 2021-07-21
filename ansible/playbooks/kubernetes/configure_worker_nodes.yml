@@ -16,6 +16,4 @@
     #Añadimos los trabajadores al cluster
   - name: Joining worker nodes with kubernetes master
     shell: |
-     kubeadm reset -f
-     cat join_token | tail -2 > out.sh
-     sh out.sh
+     cat join_token | tail -2 > token.sh ; sh token.sh

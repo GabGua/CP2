@@ -15,7 +15,7 @@ resource "azurerm_linux_virtual_machine" "myVMB2s" {
 
     admin_ssh_key {
         username   = "adminUsername"
-        public_key = file("/home/gabriel/.ssh/id_rsa.pub") 
+        public_key = file("~/.ssh/id_rsa.pub") 
     }
 
     os_disk {
@@ -59,7 +59,7 @@ resource "azurerm_linux_virtual_machine" "myVMBD1_v2" {
 
     admin_ssh_key {
         username   = "adminUsername"
-        public_key = file("/home/gabriel/.ssh/id_rsa.pub") 
+        public_key = file("~/.ssh/id_rsa.pub") 
     }
 
     os_disk {
