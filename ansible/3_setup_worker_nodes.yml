@@ -1,4 +1,4 @@
-#Llamamos al conjuntos de playbooks que contruiran los workers
+#Conjunto de playbooks que desplegan los workers
 ---
 - import_playbook: playbooks/common/update_etc_hosts.yml
 - import_playbook: playbooks/kubernetes/setting_up_nodes.yml

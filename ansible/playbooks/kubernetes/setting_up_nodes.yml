@@ -5,15 +5,10 @@
   vars_files:
   - ../vars/env_variables.yml
   tasks:
-#    #Creamos el repositorio para kubernetes
-#  - name: Creating a repository file for Kubernetes
-#    file:
-#     path: /etc/yum.repos.d/kubernetes.repo
-#     state: touch
 # Copiamos el repo de k8s en los nodos
   - name: Copy Kubernetes repo file to nodes.
     template:
-      src: /home/gabriel/CP2/ansible/j2/repos/kubernetes.repo.j2
+      src: ../../template/repos/kubernetes.repo.template
       dest: /etc/yum.repos.d/Kubernetes.repo
       owner: root
       group: root
@@ -21,7 +16,7 @@
 # Copiamos el repo de docker en los nodos
   - name: Copy Docker repo file to nodes.
     template:
-      src: /home/gabriel/CP2/ansible/j2/repos/docker-ce.repo.j2
+      src: ../../template/repos/docker-ce.repo.template
       dest: /etc/yum.repos.d/Docker-ce.repo
       owner: root
       group: root
@@ -32,10 +27,6 @@
 #     dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
 #     dnf install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm -y
 #     dnf install docker-ce -y
-
-#    #Instalamos docker y su containerd
-
-
 
 #Instalamos los paquetes de kubernetes
   - name: Installing packages
@@ -49,7 +40,7 @@
      state: started
      enabled: yes
     with_items: "{{ services }}"
-    #Habilitamos los puertos necesarios para el cluster
+#Habilitamos los puertos necesarios para el cluster
   - name: Allow Network Ports in Firewalld
     firewalld:
      port: "{{ item }}"
@@ -66,15 +57,3 @@
 #      state: enabled
 #    with_items: "{{ ip_rich_rule if ('kubernetes-master' in group_names)}}"
 
-
-#  - name: Allow workers IPs in Firewalld
-#    firewalld:
-#      rich_rule: "{{ item }}"
-#      permanent: yes
-#      immediate: yes
-#      state: enabled
-#    with_items: "{{ rich_rules  if ('kubernetes-master' in group_names)}}"
-
-##Parametro necesario para el firewall
-#  - name: Enabling Bridge Firewall Rule
-#    shell: "echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables"

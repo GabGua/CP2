@@ -1,4 +1,4 @@
-#Llamamos al conjunto de playbooks que construiran los nodos maestros
+#Conjunto de playbooks que desplegan el nodo master
 ---
 - import_playbook: playbooks/common/update_etc_hosts.yml
 - import_playbook: playbooks/kubernetes/setting_up_nodes.yml

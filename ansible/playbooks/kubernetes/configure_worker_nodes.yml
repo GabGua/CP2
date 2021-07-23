@@ -4,6 +4,7 @@
   gather_facts: false
   vars_files:
   - ../vars/env_variables.yml
+  # Autorizamos al usuario root acceder al cluster
   tasks:
 #  - name: Copying required files
 #    shell: |
@@ -13,7 +14,10 @@
     #Copiamos el archivo token en los nodos worker
   - name: Copying token to worker nodes
     copy: src={{ token_file }} dest=join_token
-    #Añadimos los trabajadores al cluster
+    #Añadimos los worker  al cluster
   - name: Joining worker nodes with kubernetes master
     shell: |
-     cat join_token | tail -2 > token.sh ; sh token.sh
+     kubeadm reset -f
+     cat join_token | tail -2 > token.sh
+     sh token.sh
+

@@ -1,7 +1,0 @@
-APUNTES CP2
-
-
-
-TodoList
-- Explicar en el documento la licencia escogida
-- Arreglar var username and pubblic_key

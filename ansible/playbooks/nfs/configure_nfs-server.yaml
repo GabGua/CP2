@@ -16,10 +16,10 @@
         owner: root
         group: root
         mode: '0775'
-# Copiamos en jinja2 template en el exports file del NFS
+# Copiamos el template en el exports file del NFS
     - name: Copy exports file.
       template:
-        src: ../../j2/exports.j2
+        src: ../../template/exports.template
         dest: /etc/exports
         owner: root
         group: root
@@ -31,14 +31,13 @@
        state: enabled
        permanent: yes
       with_items: "{{ nfs_ports  }}"
-    
+# Permitimos el trafico para los servicios de NFS    
     - name: Permit traffic in default zone for NFS services
       firewalld:
        service: "{{ item }}"
        permanent: yes
        state: enabled
       with_items: "{{ nfs_fw_services }}"
-
 
 #Iniciamos y habilitamos los servicios indicados en el archivo env
     - name: Starting and Enabling the required services

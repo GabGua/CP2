@@ -1,4 +1,4 @@
-#En los 2 siguientes parametros indicamos la IP local del maestro y la red del cluster
+#Indicamos la IP local del master y la red del cluster
 ad_addr: 10.0.1.10
 cidr_v: 192.169.0.0/16
 
@@ -22,7 +22,7 @@ services:
 
 # Based on https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#check-required-ports
 # and https://coreos.com/flannel/docs/latest/troubleshooting.html (Firewalls section)
-#Habilitamos los puertos para los nodos maestros
+#Puertos para el nodo master
 master_ports:
 - "6443/tcp"
 - "2379-2380/tcp"
@@ -31,13 +31,14 @@ master_ports:
 - "8285/udp"
 - "8472/udp"
 
-#Habilitamos los puertos para los nodos worker
+#Puertos para los workers
 worker_ports:
 - "10250/tcp"
 - "30000-32767/tcp"
 - "8285/udp"
 - "8472/udp"
 
+# Rich rule para permitir trafico
 rich_rules:
 - "rule family=ipv4 source address=10.0.1.20/32 accept"
 - "rule family=ipv4 source address=10.0.1.21/32 accept"

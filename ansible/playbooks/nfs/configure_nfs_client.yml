@@ -16,7 +16,7 @@
      state: enabled
      permanent: yes
     with_items: "{{ nfs_client_ports }}"
-
+# Habilitamos el servicio de rcpbind
   - name: Starting and Enabling rpcbind
     service:
      name: rpcbind
@@ -28,14 +28,11 @@
       path: /nfs
       state: directory
     
-#  - command: if [ -z "$nfsoptions" ]; then  echo rw,sync,nfsvers=3; else echo $nfsoptions; fi
-#    register: nfsout
-#    sudo: false
-#    #connection: local
-  
+
 #  - name: configure /etc/fstab on clients
 #    action: mount name={{clientmount}} src={{nfsserver}}:{{nfspath}} fstype=nfs opts={{nfsout}} state=mounted
-#  
+
+# Montamos el FS en el cliente 
   - name: Mount NFS volume
     mount:
       src: 10.0.1.22:/nfs-server

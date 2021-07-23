@@ -3,7 +3,7 @@
     hosts: all
     gather_facts: yes
     tasks:
-
+# Actualiza el /etc/host de todos los nodos
     - name: Update the /etc/hosts file with node name
       tags: etchostsupdate
       become: yes
