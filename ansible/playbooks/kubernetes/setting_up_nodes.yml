@@ -8,7 +8,7 @@
 # Copiamos el repo de k8s en los nodos
   - name: Copy Kubernetes repo file to nodes.
     template:
-      src: ../../template/repos/kubernetes.repo.template
+      src: ../j2/repos/kubernetes.repo.j2
       dest: /etc/yum.repos.d/Kubernetes.repo
       owner: root
       group: root
@@ -16,17 +16,11 @@
 # Copiamos el repo de docker en los nodos
   - name: Copy Docker repo file to nodes.
     template:
-      src: ../../template/repos/docker-ce.repo.template
+      src: ../j2/repos/docker-ce.repo.j2
       dest: /etc/yum.repos.d/Docker-ce.repo
       owner: root
       group: root
       mode: 0644
-#    #Instalamos docker y su containerd
-#  - name: Installing Docker
-#    shell: |
-#     dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
-#     dnf install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm -y
-#     dnf install docker-ce -y
 
 #Instalamos los paquetes de kubernetes
   - name: Installing packages

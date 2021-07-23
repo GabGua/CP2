@@ -1,14 +1,14 @@
 #Defininción de los hosts
 
 [kubernetes-master]
-13.81.240.227
+40.115.23.144
 
 [nfs-server]
-13.73.151.71
+40.115.23.165
 
 [kubernetes-workers]
-13.73.146.201
-13.81.245.195
+13.80.102.173
+20.101.68.178
 
 
 [kubernetes:children]

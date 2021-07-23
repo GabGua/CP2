@@ -19,7 +19,7 @@
 # Copiamos el template en el exports file del NFS
     - name: Copy exports file.
       template:
-        src: ../../template/exports.template
+        src: ../j2/exports.j2
         dest: /etc/exports
         owner: root
         group: root
