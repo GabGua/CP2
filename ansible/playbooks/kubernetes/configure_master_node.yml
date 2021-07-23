@@ -5,25 +5,22 @@
   vars_files:
   - ../vars/env_variables.yml
   tasks:
-    #Bajamos las imagenes necesarias para kubeadm init
+    #Hacemos un pull de las imagenes necesarias para kubeadm init
   - name: Pulling images required for setting up a Kubernetes cluster
     shell: kubeadm config images pull
-    #Limpiamos cualquier posible rastro de una config anterior
+    #Limpiamos posibles configuracion anteriores
   - name: Resetting kubeadm
     shell: kubeadm reset -f
     register: output
-    #Iniciamos el cluster pasando parametros del archivo env
-#  - name: Initializing Kubernetes cluster
-#    shell: kubeadm init --apiserver-advertise-address {{ad_addr}} --pod-network-cidr={{cidr_v}}
-#    register: output
+    #Instalamos el plugin CNI (Container Network Interface) de kubernetes y definimos la red de los PODs:
   - name: Initializing Kubernetes cluster
     shell: kubeadm init --pod-network-cidr={{cidr_v}}
     register: output
-    #Guardamos la salida en el token file necesaria para unir los nodos worker
+    #Guardamos la salida en el token file. Dicho file será usado sucesivamente para unir los nodos worker
   - name: Storing Logs and Generated token for future purpose.
     local_action: copy content={{ output.stdout }} dest={{ token_file }}
     become: False
-
+   # Autorizamos al usuario root acceder al cluster
   - name: Copying required files
     shell: |
      mkdir -p $HOME/.kube
@@ -32,14 +29,10 @@
     #Instalamos la SDN para el cluster
   - name: Install Network Add-on
     command: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
-#Instalamos el ingress controller
+    #Instalamos el ingress controller
   - name: Install Ingress Controller
     command:  kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yaml
-    #Instalamos helm para instalar aplicaciones
-#  - name: Install helm
-#    shell: |
-#     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-#     chmod 700 get_helm.sh
-#     sh get_helm.sh
-#     rm -f get_helm.sh
-#
+  # Deslegamos un ingress controller
+  - name: Deploying Ingress Controller
+    shell: |
+     kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yaml
